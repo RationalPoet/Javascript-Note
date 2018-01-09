@@ -1,0 +1,29 @@
+JavaScript的实现
+     （1）核心（ECMAScript）、文档对象模型（DOM）、浏览器对象模型（BOM）；
+     （2）由ECMA-262制定的ECMAScript与浏览器无依赖关系。
+     （3）ECMA-262主要制定了以下内容：语法、类型、语句、关键字、保留字、操作符、对象；
+     （4）JavaScript只是实现了ECMA了的一种脚本语言，同样的还有Adobe ActionScript等；
+     （5）ECMAScript的版本
+          ①、ECMA-262第1版只是在JavaScript1.1的标准上删除了所有针对浏览器的代码、对象变成与浏览器无关（如Date对象），且要求支持Unicode编码；
+          ②、ECMA-262第2版只是做了编辑加工的工作、保持与ISO/IEC-16262的严格一致；
+          ③、ECMA-262第3版是一次真正的修改，其修改了字符串处理、错误定义和数值输出等，新增了正则表达式、新控制语句、try-catch等，让ECMAScript成为真正的编程语言；
+          ④、ECMA-262的第4版由于跨度过大被放弃；
+          ⑤、ECMA-262第5版其实是当时取代第4版的ECMAScript3.1，其对第3版进行了小幅度的修改和新增（原生JSON对象、继承的方法和高级属性定义等），另外还包括严格模式。
+     （6）DOM
+          ①、DOM是把页面映射成一个多层节点结构；
+          ②、DOM提供了API，开发人员可以对DOM树上的节点进行增、删、改；
+          ③、因为NetScape的NetScape和微软的Internet Explorer4在DHTML技术上各抒己见，因此对页面开发和跨浏览器使用造成了巨大的问题，因此有必要统一DOM标准；
+          ④、WC3制定了DOM标准
+          ⑤、DOM级别
+               DOM1级包括DOM核心和DOM HTML，DOM负责文档结构映射、DOM HTML则负责对HTML的对象和方法；
+               DOM2级扩充了鼠标的用户界面事件、范围、遍历等，新增对CSS的支持，DOM1级中的DOM核心开始支持XML命名空间；
+               DOM3级则对DOM2进行了一些方法的扩展和DOM核心的扩展（对XML1.0规范的支持，包括XML Infoset、XPath、XML Base）；
+     （7）BOM
+          ①、BOM第一个也是目前唯一的标准在HTML5中指定。
+
+JavaScript在HTML中的使用
+     （1）可以将其包裹在<script>标签中混入html页面代码中使用，也可以引用js外部文件的方式；
+     （2）引用的外部js文件一般放在文档内容最后，</body>标签之前；
+     （3）defer属性指待页面内容加载完成后再解析执行该js文件中的代码，且按照文件引入顺序执行；
+     （4）async属性指当前js文件中代码的执行不必等待其他js文件的加载，也不必等待页面内容的加载完成，且无需加载执行；
+     （5）<noscript>标签用于兼容那些不支持JavaScript或禁用了JavaScript的浏览器。
