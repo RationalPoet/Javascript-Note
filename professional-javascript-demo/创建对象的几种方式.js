@@ -1,4 +1,3 @@
-```
 /**
  * 工厂模式创建对象，缺点：无法判别实例类型
  * @param  {[type]} name     [description]
@@ -114,4 +113,3 @@ function specialArray(){
 		return this.join('|');
 	};
 }
-```
