@@ -1,2 +1,2 @@
-# Javascript-Note
-try to learn more about javascript deeply
+### Javascript-Note
+JavaScript高级程序设计的一些笔记
