@@ -1,0 +1,39 @@
+### BOM
+1. window对象具有双重身份，其既是浏览器的一个实例，又是ECMAScript中定义的Global对象；
+    - 因为window的Global独对象的身份，在全局变量中定义的所有变量和函数都是window对象的属性和方法
+    - 在全局环境中定义的变量不可以用delete删除，但是在window中定义的属性可以用delete删除；
+    - 在IE8及以前版本，在使用delete去删除window属性时会报错，在IE9+之后只会返回ture（定义的是window的属性）或false（定义的是全局变量）；
+    - （重点）访问一个未声明的变量时会报错，但是通过查询window对象，可以知道某变量是否被声明过；
+2. 在访问多个框架中的某个时，使用```top.frames[索引值|框架的name值]```；
+3. 窗口位置：screenLeft和screenTop（IE、Safari、Opera和Chrome都支持），但是FireFox则支持screenX和screenY（尽管如此，各浏览器对窗口位置的偏移理解是不一样的，因此无法精确的获取浏览器真正的距离屏幕上方和左方的数值），但是在使用```moveTo(x,y)```和```moveBy(x,y)```时可以很好的移动窗口到指定位置处；
+4. 窗口大小：IE9+、Safari、FireFox的outerWidth和outerHeight返回的是浏览器窗口大小，而Opera的outerWidth和outerHeight返回的是页面视图容器大小，在Chrome中，outerWidth、outerHeight、innerWidth、innerHeight返回的都是视口（viewPort）的大小；
+5. 五大主流浏览器可以通过```document.documentElement.clientWidth```和```document.documentElement.clientHeight```获取视口信息，但如果是混杂模式的话，就必须通过```document.body.clientWidth```和```document.body.clientHeight```获取；
+6. 在使用window.open()时，要注意该方法可能被浏览器屏蔽的两种情况（浏览器自身屏蔽、浏览器插件程序屏蔽），最好的实践方法就是对window.open()的返回值放到try-catch（浏览器的屏蔽程序会抛异常）中，并判断其值是否为null（浏览器自身屏蔽返回null）；
+7. setTimeout和setInterval：
+    - setTimeout即延时调用函数，支持两个参数，第一个参数可以是字符串里包含要执行的代码，也可以是一个函数（考虑到传递字符串的性能损耗，最佳实践建议使用函数），第二个参数是要延时的时长（毫秒数——这个毫秒数是告诉JavaScript过多久再把当前任务放到任务队列中，如果任务队列不为空，则可能出现执行时间的偏差）；
+    - setInterval即周期调用函数，支持的参数与setTimeout一致，指定时间周期去执行指定函数；
+    - 最佳实践：使用setTimeout去模拟setInterval，可以很好的避免前一轮函数未执行完毕，下一轮的操作就开始了这种问题；
+8. 系统对话框：
+    - alert(x)，弹出警告框展示参数内容，且弹框上只有确定按钮；
+    - confirm(x)，弹出警告框展示参数内容，弹框上有确定按钮和取消按钮，用户点击确定按钮返回true，点击取消或X号按钮则返回false；
+    - prompt(x,y)，弹出警告框展示内容为x，y为默认值，用户点击ok时返回用户输入内容，否则返回null；
+9. location对象：
+    - location属性及其说明：
+    ```
+               hash                    返回URL中的hash（#后跟零或多个字符），如URL中不含散列，则返回空字符串；
+               host                    返回服务器名称（主域名）和端口号；
+               hostname           返回不带端口号的服务器名称（主域名）；
+               href                    返回当前加载页面的完整URL，location的toString()方法返回的也是该值；
+               pathname           返回URL中的目录或文件名；
+               port                    返回URL中指定的端口号，如果不含端口号则返回空字符串；
+               protocol             返回页面使用的通信协议，通常是http或https；
+               search                返回URL中的完整查询字符串，以?开头
+    ```
+    - 位置操作：
+        - assign(url)，这样就会打开新的URL并在浏览器的历史记录中生成一条记录（```location.href=url``` 和```window.location=url```与此方法有一样的效果）；
+            - 可以通过修改location的其他对象都会改变当前加载的页面（hash、host、hostname、search等）；
+            - 当修改上述任何一种方式修改URL后，浏览器的历史记录会生成一条新纪录，因此可以通过点击后退返回到前一个页面，如果要禁用这种行为，可以使用replace()；
+            - ```location.reload()```，有可能拿缓存数据进行刷新，而```location.reload(true)```则会重新请求服务器刷新；
+10. history对象：
+    - go(x)，其中的x可以是正数也可以是负数还可以是字符串，正数：前进x页，负数：后退x页，字符串：在所有浏览记录中查找包含该字符串最近的url进行跳转；
+    - forword()和back()，分别表示前进一页、后退一页；

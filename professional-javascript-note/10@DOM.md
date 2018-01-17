@@ -1,0 +1,51 @@
+###DOM
+1. Node类型：
+    - Node接口是在DOM1级中定义的，该接口由DOM中的所有节点类型实现，这个接口在JavaScript是作为Node类型实现的；
+    - nodeType，表示当前节点的节点类型（为了兼容IE，其值通常和1作比较判断是否是元素）；
+    - 当确定一个节点类型是元素后，其nodeName表示当前元素名称（'INPUT'），而nodeValue始终是null；
+    - 节点间的关系可以用家族族谱的关系做描述；
+    - 每个元素都有childNodes属性，其中保存着该元素的所有子元素，并存在着顺序问题，所以有firstChild()和lastChild()两个方法；
+    - 想获取childNodes中的某个节点，可以使用```parentNode.childNodes[x]```或```parentNode.childNodes.item(x)```；
+    - 在获取兄弟节点时可以使用```someNode.previousSibling()```、```someNode.nextSibling()```（如果当前节点是childNodes中的第一个节点则其previousSibing()返回null，如果是最后一个则nextSibling()返回null）；
+    - 操作节点（基于父节点进行操作）：
+        - 向当前节点的子节点列表上追加一个新节点：```parentNode.appendChild(newNode)```；
+        - 如果想向节点的某个子节点前增加一个新节点：```parentNode.insertBefore(newNode, null | someNode)```，如果参照节点为null，则在当前子节点列表最后追加，否则在参照节点前新增；
+        - 替换节点：```parentNode.replaceChild(newNode, oldNode)```；
+        - 移除节点：```parentNode.removeChild(oldNode)```；
+        - 其他方法：cloneNode()，用于创建调用该方法的节点的一个完全相同的节点副本，如果是cloneNode(true)，则执行深层拷贝，否则执行浅拷贝
+2. Document类型：
+    - nodeType=9，nodeName='#document'，nodeValue=null，parentNode=null，ownerDocument=null，其子节点可能是一个DocumentType、Element、ProcessingInstruction或Comment；
+    - document -> HTMLDocument ->Document；
+    - 访问子节点：documentElement指向的是html标签、childNodes列表访问子节点、document.body指向body标签；
+    - 所有浏览器都支持document.documentElement和document.body；
+    - 文档信息：document.title、document.URL、document.domain、document.referrer：
+        - title，当前页面的标题，可修改，并直接作用在页面上；
+        - URL，当前页面的完整url，不可设置；
+        - domain，当前页面url的域名，可修改，但是受限于只能修改为当前URL中包含的域名（且只能由紧绷的域名改为宽松的域名，不可逆）；
+        - referrer，连接到当前页面的那个页面的URL，不可设置。
+    - 查找元素：
+        - ```document.getElementById(x)```，x是指定的Id，区分大小写且唯一（IE7有一个怪癖：如果某表单元素在这个id元素之前且name值等于这个id值，那么就会返回这个表单元素）；
+        - ```document.getElementsByTagName(x)```，x是指定的元素名，不区分大小写，返回的是一个HTMLCollection对象（类似于NodeList）,可以使用```[下标 | 元素name值]```直接访问到某个元素（```collection.item(0)```、```collection[0]```、```collection.namedItem('nav')```、```collection['nav']```）；
+        - ```document.getElementsByName(x)```，x是指定的name值，返回的也是HTMLCollection对象；
+    - 文档写入：
+        - ```document.write(xxx)```、```document.writeln(xx)```、```document.open()```、```document.close()```；
+        - write()和writeln()，在文档加载过程中写入会动态加入内容，但如果是文档加载完成后调用，则会重写整个页面；
+    - Element类型：
+        - nodeType=1，nodeName=元素标签名，nodeValue=null，parentNode=Document或Element，其子节点可能是一个Element、Text、Comment、ProcessingInstruction、CDATASection或EntityReference；
+        - HTML元素（标准属性）：title 、id 、lang、className，这些属性被修改时，会立即体现在页面上 包括样式；
+        - 属性操作：getAttribute()、setAttribute()、removeAttribute()，
+        - 针对一些元素公认的属性，既可通过getAttribute和setAttribute进行操作，也可以通过DOM节点直接操作；
+        - 像style属性和onclick等事件处理程序，其用getAttribute()访问和直接访问dom节点属性返回值并不一致，style在用getAttribue()访问时返回的是css属性字符串，而用dom节点属性访问的是styleSheet样式对象，同理onclick用getAttribute访问返回相应代码字符串，而用属性访问则会返回相应否JavaScript函数；
+        - 在使用setAttribute()时，要注意IE7及以前版本对class、style和事件处理程序时会有异常，到了IE8才修复，所以最佳实践是：使用属性方法设置元素的特性，setAttribute来设置自定义属性；
+        - getAttribute()的最佳实践：使用属性方法获取元素的HTML特性，而使用getAttribute()获取自定义属性；
+        - 创建元素：createElement()，最佳实践：在针对IE7及以前版本中使用createElement(完整的元素标签，可以带有属性)，这样以绕开IE7的一些问题，但在其他浏览器和IE8及以后还是要使用createElement(元素标签名称)；
+        - 元素子节点（childNodes）：在IE浏览器中，无论是在解析一连串字符串组成的dom结构还是解析各子节点间存在换行或空白，都会返回子节点个数长度的chilNodes，而在其他浏览器中则会把各子节点之间的空白也算作一个节点（文本节点），所以返回的childNodes就会不一致（可以在操作各子节点时判断其nodeType是否等于1来判断当前节点是不是元素）；
+    - Text类型：
+        - nodeType=3，nodeName='#text'，nodeValue=节点所包含的文本、parent=一个Element、没有子节点；
+        - 可以通过nodeValue属性或data属性访问Text节点内包含的文本，且nodeValue和data的数据会相互影响；
+        - 有方法：```appendData(text)```、```deleteData(offset, count)```、```insertData(offset, text)```、```replaceData(offset, count, text)```、```substringData(offset, count)```、```splitText(offset)```；
+        - 创建文本节点：```document.createTextNode(text)```;
+        - 使用```element.normalize()```，将节点内的文本节点合并成为一个文本节点；
+        - 使用```spliteText(offset)```，将节点内文本节点划分为2部分，原节点保存着被截取出来的前半段，方法返回剩下的下半段；
+5. Comment类型（nodeTpe=8）：在IE8中使用getElementsByTagName()会认为注释也是一个节点；
+6. CDATASection类型（nodeType=4）
