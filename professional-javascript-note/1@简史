@@ -1,6 +1,0 @@
-JavaScript的历史
-  （1）JavaScript诞生于1995年，其最初目的只是用来简化表单验证过程；
-  （2）JavaScript最初指的是由兰登.艾奇准备在NetScape Navigator2搭载的脚本语言LiveScript，为搭上当时热门的Java，改名JavaScript（JavaScript1.0）；
-  （3）JavaScript1.0大热后，发布NetScape Navigator3，并搭载JavaScript1.1，微软紧随其后发布IE3，并搭载自家脚本语言JScript；
-  （4）NetScape中的JavaScript、Internet Explorer中的的JScript和ScriptBase中的CEnvi三局鼎立，统一规范成为必然；
-  （5）1997年，以JavaScript为蓝本提交至ECMA供指定行业标准，ECMA指定TC39制定。最终制定出ECMA-262第一版标准，取名ECMAScript；
